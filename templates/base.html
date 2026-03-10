@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ISE Scholar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.27.0/dist/bootstrap-table.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>ISE Scholar</h1>
+
+    <hr>
+    <form class="form-inline" action="/">
+        <input type="text" name="query" placeholder="Query" value="{{ query }}">
+        <input type="text" name="venues" placeholder="Venues" value="{{ venues }}">
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+
+    {% if response %}
+    <p>showing {{ response.total }} results</p>
+    <h2>Search Results</h2>
+    <table class="table table-striped" data-toggle="table">
+        <thead>
+        <th>Year</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Venue</th>
+        <th>Citation Count</th>
+        </thead>
+        {% for paper in response.data %}
+        <tr>
+            <td>{{year}}</td>
+            <td><a href="{{paper.url}}">{{ paper.title }}</a></td>
+            <td>{% for author in paper.authors %}
+                {{ author.name }}{% if not loop.last %}, {% endif %}
+            {% endfor %}</td>
+            <td>{{ paper.venue }}</td>
+            <td>{{ paper.citationCount }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <pre>{{ response }}</pre>
+
+    {% endif %}
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.27.0/dist/bootstrap-table.min.js"></script>
+
+</body>
+</html>
