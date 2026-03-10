@@ -3,9 +3,10 @@ from os import kill
 import requests
 import json
 
-def fetch_papers(query):
-    PUBLICATION_TYPES = ['Review', 'JournalArticle', 'Conference']
-    FIELDS =  [
+
+def fetch_papers(query, venues):
+    publication_types = ['Review', 'JournalArticle', 'Conference']
+    fields = [
         'title',
         'authors.name',
         'url',
@@ -14,7 +15,6 @@ def fetch_papers(query):
         'venue',
         'year',
     ]
-
 
     # Specify the search term
     # query = 'sustainable'
@@ -25,10 +25,10 @@ def fetch_papers(query):
     # Define the query parameters
     query_params = {
         "query": query,
-        "fields": ",".join(FIELDS),
-        "venue": "ICSOC,EDOC,ICSA",
+        "fields": ",".join(fields),
+        "venue": venues,
         # "year": "2023-"
-        "publicationTypes": ",".join(PUBLICATION_TYPES),
+        "publicationTypes": ",".join(publication_types),
         "limit": 10,
     }
 

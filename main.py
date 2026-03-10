@@ -9,12 +9,11 @@ app = Flask(__name__, template_folder='templates')
 def search():
 
     response = None
-
+    venues = request.args.get('venues', default='ICSOC,EDOC,ICSA')
     query = request.args.get('query')
     if query:
-        response = scholar.fetch_papers(query)
+        response = scholar.fetch_papers(query, venues=venues)
 
-    venues = request.args.get('venues', default='ICSOC,EDOC,ICSA')
 
     return render_template('base.html', response=response, query=query, venues=venues)
 
