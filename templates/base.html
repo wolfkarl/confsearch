@@ -3,10 +3,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ISE Scholar</title>
+    <title>
+        {% if query %}
+        {{ query }} -
+        {% endif %}
+        ISE Scholar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.27.0/dist/bootstrap-table.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.24.2/extensions/filter-control/bootstrap-table-filter-control.min.css"
+          integrity="sha512-VDe7nQKAAMUvg5iwah7VoNOIk0+pKVIoLsdTueh/+ajepxIWWeyaEeDBOAO1/jv6prU93FO5DcWyBaQ8liRiBA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 <div class="container">
@@ -23,25 +32,33 @@
     {% if response %}
     <p>showing {{ response.total }} results</p>
     <h2>Search Results</h2>
-    <table class="table table-striped" data-toggle="table">
+    <table class="table table-striped"
+           data-toggle="table"
+           data-search="true"
+           data-show-columns="true">
         <thead>
-        <th>Year</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Venue</th>
-        <th>Citation Count</th>
+        <tr>
+            <th data-field="year" data-sortable="true">Year</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th data-sortable="true" data-filter-control="true">Venue</th>
+            <th data-sortable="true" data-field="citations">Citation Count</th>
+        </tr>
         </thead>
         {% for paper in response.data %}
+        <tbody>
         <tr>
-            <td>{{year}}</td>
+            <td>{{ paper.year }}</td>
             <td><a href="{{paper.url}}">{{ paper.title }}</a></td>
             <td>{% for author in paper.authors %}
                 {{ author.name }}{% if not loop.last %}, {% endif %}
-            {% endfor %}</td>
+                {% endfor %}
+            </td>
             <td>{{ paper.venue }}</td>
             <td>{{ paper.citationCount }}</td>
         </tr>
         {% endfor %}
+        </tbody>
     </table>
 
     <pre>{{ response }}</pre>
@@ -53,7 +70,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-4.0.0.min.js"
+        integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.27.0/dist/bootstrap-table.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.24.2/extensions/filter-control/bootstrap-table-filter-control.min.js"
+        integrity="sha512-DBSfotF9PwYW+DEDF7kDo1JIJAk1AMpFv57exNjLvdbQQT71mcmGGbBweoq/T7vnIy3jNxwRbV9GQt+TGZ/Xow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </body>
 </html>
